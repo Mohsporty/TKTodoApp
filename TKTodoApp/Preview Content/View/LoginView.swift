@@ -1,4 +1,5 @@
 import SwiftUI
+import AuthenticationServices
 
 struct LoginView: View {
     @State private var email: String = ""
@@ -11,7 +12,7 @@ struct LoginView: View {
         VStack {
             Image("login")
                 .resizable()
-                .frame(height: 400)
+                .frame(width: 200,height: 200)
             
             VStack {
                 Text("Login")
@@ -20,6 +21,9 @@ struct LoginView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 20)
                 
+                
+                
+    // email pargraf and actions
                 HStack{
                     Image(systemName: "envelope")
                     TextField("Email", text: $email)
@@ -28,6 +32,9 @@ struct LoginView: View {
                 .background(Divider(), alignment: .bottom)
                 .padding(.bottom, 8)
                 
+                
+                
+    // this is password pargraf
                 HStack {
                     Image(systemName: "lock")
                     
@@ -37,7 +44,7 @@ struct LoginView: View {
                     } else {
                         SecureField("Password", text: $password)
                     }
-                    
+             
                   
                     Button(action: {
                         isPasswordVisible.toggle()
@@ -50,18 +57,51 @@ struct LoginView: View {
                 .background(Divider(), alignment: .bottom)
                 .padding(.bottom, 8)
                 
- // actions button
-                Button(action: {}, label:{ Text("Login")
+ // actions button press actions  with full informations
+                
+                
+         
+                    
+                TKButton(label: "Login") {
+                        
+                           }
+                      
+            }
+            .padding()
+            .background(Color(UIColor.systemBackground))
+            HStack{
+                VStack{Divider()}
+                Text("Or")
                     .bold()
-                    .foregroundStyle(Color.black)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical,15)
-                    .background(Color.gray)
-                    .cornerRadius(8)
-                       }  )
+                VStack{Divider()}
+            }
+            
+            // sign up button for add from TKButton SwiftUI file 
+            VStack(spacing: 10){
+                TKButton(label: "SignUP With Email", iconName: "envelope") {
+                    
+                       }
+               
+                TKButton(label: "Signin With Google", iconImage: Image("google")) {
+                    
+                }
+                // apple signin button add from libery
+                
+                SignInWithAppleButton(.signIn) {
+                    result in
+                }onCompletion: { result in
+                    
+                }
+                .frame(height: 50)
+                .frame(maxWidth: .infinity)
+                .signInWithAppleButtonStyle(.whiteOutline)
+                .shadow(color: .black, radius: 4, x: 0, y: 2)
+              
             }
             .padding()
         }
+        .padding()
+        .background(Color(UIColor.systemBackground).edgesIgnoringSafeArea(.all))
     }
 }
 

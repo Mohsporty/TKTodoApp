@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TKVutton: View {
+struct TKButton: View {
     
     
     var label: String
