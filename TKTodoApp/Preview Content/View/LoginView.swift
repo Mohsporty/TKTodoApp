@@ -5,6 +5,7 @@ struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
+    @State private var isSignup: Bool = false
     
     
     
@@ -24,17 +25,21 @@ struct LoginView: View {
                 
                 
     // email pargraf and actions
-                HStack{
-                    Image(systemName: "envelope")
-                    TextField("Email", text: $email)
-                }
-                .padding(.vertical, 6)
-                .background(Divider(), alignment: .bottom)
-                .padding(.bottom, 8)
+                TKTextField(text: $email, placeholder: "Email", image: "envelope")
+  
+                
+            // thisis is tessting to make simple the code with out show button of the password
                 
                 
                 
+                
+                //  TKTextField(text: $password, placeholder: "Password", image: "lock", isSecure: true)
+                
+           
     // this is password pargraf
+                
+                
+                
                 HStack {
                     Image(systemName: "lock")
                     
@@ -80,6 +85,8 @@ struct LoginView: View {
             VStack(spacing: 10){
                 TKButton(label: "SignUP With Email", iconName: "envelope") {
                     
+                    isSignup.toggle()
+                    
                        }
                
                 TKButton(label: "Signin With Google", iconImage: Image("google")) {
@@ -101,6 +108,9 @@ struct LoginView: View {
             .padding()
         }
         .padding()
+        .sheet(isPresented: $isSignup, content: {
+            SignupView()
+        })
         .background(Color(UIColor.systemBackground).edgesIgnoringSafeArea(.all))
     }
 }

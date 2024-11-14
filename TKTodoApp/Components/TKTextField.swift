@@ -8,11 +8,27 @@
 import SwiftUI
 
 struct TKTextField: View {
+    
+    @Binding var text : String
+    var placeholder : String
+    var image : String
+    var isSecure : Bool = false
+    
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack{
+            Image(systemName: image)
+            if isSecure{
+                
+                SecureField(placeholder, text: $text)
+                
+            } else {
+                TextField(placeholder, text: $text)
+            }
+        }
+        .padding(.vertical,6)
+        .background(Divider(), alignment: .bottom)
+        .padding(.bottom,8)
     }
-}
-
-#Preview {
-    TKTextField()
 }
