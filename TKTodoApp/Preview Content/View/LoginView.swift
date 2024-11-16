@@ -2,14 +2,32 @@ import SwiftUI
 import AuthenticationServices
 
 struct LoginView: View {
-    @State private var email: String = ""
+
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
     @State private var isSignup: Bool = false
+    @State private var animateBackground: Bool = false
+    @StateObject private var viewModel = LoginViewModel()
     
     
     
     var body: some View {
+        ZStack{
+            
+            LinearGradient(
+                            gradient: Gradient(colors: animateBackground ? [Color.blue, Color.purple] : [Color.pink, Color.orange]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        .ignoresSafeArea()
+                        .animation(
+                            Animation.easeInOut(duration: 4).repeatForever(autoreverses: true),
+                            value: animateBackground
+                        )
+                        .onAppear {
+                            animateBackground.toggle()
+                        }
+        
         VStack {
             Image("login")
                 .resizable()
@@ -22,10 +40,13 @@ struct LoginView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 20)
                 
+                if !viewModel.errorMessage.isEmpty {
+                    Text(viewModel.errorMessage)
+                }
                 
                 
     // email pargraf and actions
-                TKTextField(text: $email, placeholder: "Email", image: "envelope")
+                TKTextField(text: $viewModel.email, placeholder: "Email", image: "envelope")
   
                 
             // thisis is tessting to make simple the code with out show button of the password
@@ -68,6 +89,7 @@ struct LoginView: View {
          
                     
                 TKButton(label: "Login") {
+                    viewModel.Login()
                         
                            }
                       
@@ -108,13 +130,13 @@ struct LoginView: View {
             .padding()
         }
         .padding()
-        .sheet(isPresented: $isSignup, content: {
-            SignupView()
-        })
-        .background(Color(UIColor.systemBackground).edgesIgnoringSafeArea(.all))
-    }
-}
+                    .sheet(isPresented: $isSignup) {
+                        SignupView()
+                    }
+                }
+            }
+        }
 
-#Preview {
-    LoginView()
-}
+        #Preview {
+            LoginView()
+        }
