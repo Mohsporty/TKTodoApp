@@ -22,15 +22,24 @@ class SignupViewModels : ObservableObject{
     func register() {
         guard validate() else { return }
         
-        Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            guard let userId = result?.user.uid else { return }
-            
+        Auth.auth().createUser(withEmail: email, password: password) {[weak self] result, error in
+            guard let userId = result?.user.uid else {
+                return
+            }
+            self?.creatUser(id: userId)
         }
         
     }
     
     private func creatUser(id : String) {
-        let newUser = TKUser(id: id, name: name, email: email, joined: Data().timeIntervalSince1970)
+        
+        let newUser = TKUser(id: id, name: name, email: email, joined: Date().timeIntervalSince1970)
+        let db = Firestore.firestore()
+        db.collection("user")
+            .document(id)
+            .setData(newUser.asdict())
+          
+        
     }
     
     
