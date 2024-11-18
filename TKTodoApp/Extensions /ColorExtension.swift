@@ -7,12 +7,8 @@
 
 import SwiftUI
 
-struct ColorExtension: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+import SwiftUI
 
-#Preview {
-    ColorExtension()
+extension Color {
+    static let customPinkColor = Color("CustomPink")
 }
